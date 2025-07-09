@@ -4,7 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Encontros Jovens",
+  title: "GOJ",
   description: "Calendário e gestão de encontros do Grupo de Oração Jovem São Francisco",
 };
 
