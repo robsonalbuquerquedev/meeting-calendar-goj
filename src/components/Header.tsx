@@ -116,7 +116,7 @@ export default function Header() {
                                 📋 ver Inscritos
                             </Link>
                         </div>
-                        <Link href="/perfil" className={navLinkClass("/perfil")} title="Perfil">👤</Link>
+                        <Link href="/perfil" className={navLinkClass("/perfil")} title="Perfil">👤 Perfil</Link>
                         {(isAdmin || isModerator) && (
                             <Link href="/admin" className={navLinkClass("/admin")} title="Adicionar Encontro">
                                 ➕ Salvar Evento
