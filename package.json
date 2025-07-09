@@ -11,6 +11,8 @@
   "dependencies": {
     "date-fns": "^4.1.0",
     "firebase": "^11.10.0",
+    "jspdf": "^3.0.1",
+    "jspdf-autotable": "^5.0.2",
     "next": "15.3.5",
     "react": "^19.0.0",
     "react-calendar": "^6.0.0",

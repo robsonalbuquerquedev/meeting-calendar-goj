@@ -100,6 +100,26 @@ export default function Header() {
                         <Link href="/encontros/lista" className={navLinkClass("/encontros/lista")}>
                             Lista de Encontros
                         </Link>
+                        <div className="relative group md:hover:bg-transparent">
+                            <button
+                                className={`${navLinkClass("/adj")} block px-2 py-1 w-full text-left md:inline cursor-pointer`}
+                                onClick={() => router.push("/adj")}
+                            >
+                                ADJ ▾
+                            </button>
+
+                            {/* Dropdown menu */}
+                            <div
+                                className="absolute left-0 top-full mt-1 bg-white border border-gray-200 rounded shadow-md hidden group-hover:block md:min-w-[180px] z-20"
+                            >
+                                <Link
+                                    href="/adj/lista"
+                                    className="block px-4 py-2 hover:bg-gray-100 text-sm text-[#264D73]"
+                                >
+                                    Ver Inscritos
+                                </Link>
+                            </div>
+                        </div>
                         <Link href="/perfil" className={navLinkClass("/perfil")}>Perfil</Link>
                         {(isAdmin || isModerator) && (
                             <Link href="/admin" className={navLinkClass("/admin")}>Admin</Link>
