@@ -46,6 +46,11 @@ export default function MeetingList() {
         fetchMeetings();
     }, []);
 
+    function createLocalDateFromString(dateString: string): Date {
+        const [year, month, day] = dateString.split("-").map(Number);
+        return new Date(year, month - 1, day); // mês começa em 0
+    }
+
     const fetchMeetings = async () => {
         const encontrosRef = ref(database, "encontros");
         const snapshot = await get(encontrosRef);
@@ -56,11 +61,13 @@ export default function MeetingList() {
                 date,
                 data: data[date],
             }));
-
-            formatted.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+            formatted.sort(
+                (a, b) =>
+                    createLocalDateFromString(a.date).getTime() -
+                    createLocalDateFromString(b.date).getTime()
+            );
             setMeetings(formatted);
         }
-
         setLoading(false);
     };
 
@@ -99,24 +106,18 @@ export default function MeetingList() {
                         <tbody>
                             {meetings.map(({ date, data }, index) => (
                                 <tr key={index} className="border-t hover:bg-gray-50">
-                                    <td className="p-2 whitespace-nowrap">{format(new Date(date), "dd/MM/yyyy")}</td>
+                                    <td className="p-2 whitespace-nowrap">
+                                        {format(createLocalDateFromString(date), "dd/MM/yyyy")}
+                                    </td>
                                     <td className="p-2">{data.theme}</td>
                                     <td className="p-2">{data.preacher || "—"}</td>
                                     <td className="p-2">{data.location || "—"}</td>
                                     {isAdmin && (
                                         <td className="p-2 flex gap-2 justify-center text-lg">
-                                            <button
-                                                onClick={() => handleEdit(date)}
-                                                className="text-blue-600 hover:text-blue-800 cursor-pointer"
-                                                title="Editar Encontro"
-                                            >
+                                            <button onClick={() => handleEdit(date)} className="text-blue-600 hover:text-blue-800">
                                                 <FaEdit />
                                             </button>
-                                            <button
-                                                onClick={() => handleDelete(date)}
-                                                className="text-red-600 hover:text-red-800 cursor-pointer"
-                                                title="Excluir Encontro"
-                                            >
+                                            <button onClick={() => handleDelete(date)} className="text-red-600 hover:text-red-800">
                                                 <FaTrash />
                                             </button>
                                         </td>
