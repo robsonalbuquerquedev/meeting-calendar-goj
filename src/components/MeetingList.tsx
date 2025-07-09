@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ref, get, remove, onValue } from "firebase/database";
 import { database } from "@/firebase/config";
 import { format } from "date-fns";
@@ -43,16 +43,7 @@ export default function MeetingList() {
         return () => unsubscribe();
     }, []);
 
-    useEffect(() => {
-        fetchMeetings();
-    }, []);
-
-    function createLocalDateFromString(dateString: string): Date {
-        const [year, month, day] = dateString.split("-").map(Number);
-        return new Date(year, month - 1, day); // mês começa em 0
-    }
-
-    const fetchMeetings = async () => {
+    const fetchMeetings = useCallback(async () => {
         const encontrosRef = ref(database, "encontros");
         const snapshot = await get(encontrosRef);
 
@@ -70,7 +61,16 @@ export default function MeetingList() {
             setMeetings(formatted);
         }
         setLoading(false);
-    };
+    }, []);
+
+    useEffect(() => {
+        fetchMeetings();
+    }, [fetchMeetings]);
+
+    function createLocalDateFromString(dateString: string): Date {
+        const [year, month, day] = dateString.split("-").map(Number);
+        return new Date(year, month - 1, day); // mês começa em 0
+    }
 
     const handleDelete = async (date: string) => {
         const confirmDelete = window.confirm(`Tem certeza que deseja excluir o encontro do dia ${format(new Date(date), "dd/MM/yyyy")}?`);
