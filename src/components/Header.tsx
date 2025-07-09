@@ -78,7 +78,7 @@ export default function Header() {
   px-6 py-4 md:p-0 
   shadow md:shadow-none z-10`}
             >
-                <Link href="/" className={navLinkClass("/")}>🏠</Link>
+                <Link href="/" className={navLinkClass("/")}>🏠 Início</Link>
 
                 {!isLoggedIn && (
                     <>
@@ -98,7 +98,7 @@ export default function Header() {
                             Galeria dos Santos
                         </Link>
                         <Link href="/encontros/lista" className={navLinkClass("/encontros/lista")} title="Encontros">
-                            📅
+                            📅 Ver Encontros
                         </Link>
                         <div className="flex items-center gap-2">
                             <button
@@ -106,25 +106,25 @@ export default function Header() {
                                 onClick={() => router.push("/adj")}
                                 title="Área ADJ"
                             >
-                                🙋
+                                🙋 ADJ
                             </button>
                             <Link
                                 href="/adj/lista"
                                 className="p-2 rounded hover:bg-gray-100 text-[#264D73]"
                                 title="Ver Inscritos"
                             >
-                                📋
+                                📋 ver Inscritos
                             </Link>
                         </div>
                         <Link href="/perfil" className={navLinkClass("/perfil")} title="Perfil">👤</Link>
                         {(isAdmin || isModerator) && (
                             <Link href="/admin" className={navLinkClass("/admin")} title="Adicionar Encontro">
-                                ➕
+                                ➕ Salvar Evento
                             </Link>
                         )}
                         {isAdmin && (
                             <Link href="/painelAdmin" className={navLinkClass("/painelAdmin")} title="Painel Admin">
-                                🛠️
+                                🛠️ Painel Admin
                             </Link>
                         )}
                         <button
@@ -132,7 +132,7 @@ export default function Header() {
                             className="text-red-600 hover:underline cursor-pointer"
                             title="Sair"
                         >
-                            🚪
+                            🚪 Sair
                         </button>
                     </>
                 )}
