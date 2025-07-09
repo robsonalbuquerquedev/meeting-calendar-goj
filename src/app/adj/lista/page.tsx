@@ -40,13 +40,12 @@ export default function ListaInscricoesPage() {
             const snap = await get(ref(database, "inscricoes_adj"));
             if (snap.exists()) {
                 const data = snap.val();
-                const lista = Object.entries(data).map(([id, valor]: any) => ({
+                const lista = Object.entries(data).map(([id, valor]) => ({
                     id,
-                    ...valor,
+                    ...(valor as Omit<Inscricao, "id">),
                 }));
                 setInscricoes(lista);
             }
-
             setLoading(false);
         });
 
@@ -167,8 +166,8 @@ export default function ListaInscricoesPage() {
                                                             );
                                                         }}
                                                         className={`text-xs px-2 py-1 rounded font-semibold ${item.caravanaConfirmado
-                                                            ? "bg-green-100 text-green-700 border border-green-300"
-                                                            : "bg-yellow-100 text-yellow-700 border border-yellow-300"
+                                                            ? "bg-green-100 text-green-700 border border-green-300 cursor-pointer"
+                                                            : "bg-yellow-100 text-yellow-700 border border-yellow-300 cursor-pointer"
                                                             }`}
                                                     >
                                                         {item.caravanaConfirmado ? "✅ Confirmado" : "Marcar OK"}

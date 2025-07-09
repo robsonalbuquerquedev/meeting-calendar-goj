@@ -5,6 +5,7 @@ import { useRouter, useParams } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, database } from "@/firebase/config";
 import { get, ref, update } from "firebase/database";
+import { useCallback } from "react";
 
 interface Inscricao {
     nome: string;
@@ -31,6 +32,19 @@ export default function EditarInscricaoPage() {
         caravana: "",
     });
 
+    const carregarDados = useCallback(async () => {
+        if (!params?.id) return;
+
+        const refInscricao = ref(database, `inscricoes_adj/${params.id}`);
+        const snap = await get(refInscricao);
+
+        if (snap.exists()) {
+            setDados(snap.val());
+        }
+
+        setLoading(false);
+    }, [params?.id]);
+
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if (!user) {
@@ -44,27 +58,14 @@ export default function EditarInscricaoPage() {
 
             if (role === "admin" || role === "moderador") {
                 setIsAuthorized(true);
-                carregarDados();
+                carregarDados(); // agora está seguro usar aqui
             } else {
                 router.push("/");
             }
         });
 
         return () => unsubscribe();
-    }, [router]);
-
-    const carregarDados = async () => {
-        if (!params?.id) return;
-
-        const refInscricao = ref(database, `inscricoes_adj/${params.id}`);
-        const snap = await get(refInscricao);
-
-        if (snap.exists()) {
-            setDados(snap.val());
-        }
-
-        setLoading(false);
-    };
+    }, [router, carregarDados]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setDados({ ...dados, [e.target.name]: e.target.value });

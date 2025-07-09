@@ -5,9 +5,10 @@ import { useRouter } from "next/navigation";
 import { auth, database } from "@/firebase/config";
 import { onAuthStateChanged } from "firebase/auth";
 import { ref, push } from "firebase/database";
+import type { User } from "firebase/auth";
 
 export default function AdjFormPage() {
-    const [user, setUser] = useState<any>(null);
+    const [user, setUser] = useState<User | null>(null);
     const [formData, setFormData] = useState({
         nome: "",
         idade: "",
