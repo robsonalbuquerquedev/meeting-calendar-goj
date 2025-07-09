@@ -84,11 +84,6 @@ export default function PainelAdmin() {
                 <h1 className="text-xl md:text-2xl font-bold text-[#264D73]">
                     👑 Painel do Administrador
                 </h1>
-                {userName && (
-                    <p className="text-sm text-gray-600 mt-2 md:mt-0">
-                        Olá, <span className="font-semibold">{userName}</span>!
-                    </p>
-                )}
             </div>
 
             {loading ? (
