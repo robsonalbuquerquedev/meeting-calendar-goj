@@ -6,9 +6,10 @@ import { useRouter } from "next/navigation";
 import { onAuthStateChanged, updateProfile } from "firebase/auth";
 import { ref, get, set } from "firebase/database";
 import { auth, database } from "@/firebase/config";
+import type { User } from "firebase/auth";
 
 export default function PerfilPage() {
-    const [user, setUser] = useState<any>(null);
+    const [user, setUser] = useState<User | null>(null);
     const [displayName, setDisplayName] = useState("");
     const [loading, setLoading] = useState(true);
     const [success, setSuccess] = useState(false);
@@ -74,11 +75,11 @@ export default function PerfilPage() {
                     <input
                         type="email"
                         className="mt-1 w-full border rounded px-3 py-2 bg-gray-100 cursor-not-allowed"
-                        value={user?.email}
+                        value={user?.email ?? ""}
                         disabled
                     />
                 </label>
-
+                
                 <button
                     onClick={handleSave}
                     className="bg-[#264D73] text-white px-4 py-2 rounded hover:bg-[#1b3552] w-full cursor-pointer"

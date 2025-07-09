@@ -18,7 +18,6 @@ export default function PainelAdmin() {
     const [usuarios, setUsuarios] = useState<Usuario[]>([]);
     const [loading, setLoading] = useState(true);
     const [isAdmin, setIsAdmin] = useState(false);
-    const [userName, setUserName] = useState("");
     const router = useRouter();
 
     useEffect(() => {
@@ -31,12 +30,10 @@ export default function PainelAdmin() {
             const roleRef = ref(database, `usuarios_web/${user.uid}/role`);
             const nameRef = ref(database, `usuarios_web/${user.uid}/name`);
 
-            const [roleSnap, nameSnap] = await Promise.all([
+            const [roleSnap] = await Promise.all([
                 get(roleRef),
                 get(nameRef),
             ]);
-
-            if (nameSnap.exists()) setUserName(nameSnap.val());
 
             if (roleSnap.exists() && roleSnap.val() === "admin") {
                 setIsAdmin(true);
@@ -55,19 +52,20 @@ export default function PainelAdmin() {
 
         if (snap.exists()) {
             const data = snap.val();
-            const lista: Usuario[] = Object.entries(data).map(
-                ([uid, valor]: any) => ({
+            const lista: Usuario[] = Object.entries(data).map(([uid, valor]) => {
+                const usuario = valor as { name?: string; email: string; role?: string };
+                return {
                     uid,
-                    name: valor.name || "(sem nome)",
-                    email: valor.email,
-                    role: valor.role || "usuario",
-                })
-            );
-
+                    name: usuario.name || "(sem nome)",
+                    email: usuario.email,
+                    role: usuario.role || "usuario",
+                };
+            });
             setUsuarios(lista);
         }
         setLoading(false);
     };
+
 
     const mudarRole = async (uid: string, novaRole: string) => {
         await update(ref(database, `usuarios_web/${uid}`), {

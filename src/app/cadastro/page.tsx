@@ -31,8 +31,12 @@ export default function CadastroPage() {
             });
 
             router.push("/");
-        } catch (err: any) {
-            setError(err.message || "Erro ao criar conta");
+        } catch (err) {
+            if (err instanceof Error) {
+                setError(err.message);
+            } else {
+                setError("Erro ao criar conta");
+            }
         } finally {
             setLoading(false);
         }
