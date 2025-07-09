@@ -78,7 +78,7 @@ export default function Header() {
   px-6 py-4 md:p-0 
   shadow md:shadow-none z-10`}
             >
-                <Link href="/" className={navLinkClass("/")}>Início</Link>
+                <Link href="/" className={navLinkClass("/")}>🏠</Link>
 
                 {!isLoggedIn && (
                     <>
@@ -97,43 +97,42 @@ export default function Header() {
                         >
                             Galeria dos Santos
                         </Link>
-                        <Link href="/encontros/lista" className={navLinkClass("/encontros/lista")}>
-                            Lista de Encontros
+                        <Link href="/encontros/lista" className={navLinkClass("/encontros/lista")} title="Encontros">
+                            📅
                         </Link>
-                        <div className="relative group">
-                            <div className="flex items-center gap-2">
-                                <button
-                                    className={`${navLinkClass("/adj")} px-3 py-2 text-[#264D73] hover:bg-gray-100 rounded flex items-center gap-2 cursor-pointer`}
-                                    onClick={() => router.push("/adj")}
-                                    title="Área do Desperta Jovem"
-                                >
-                                    🙋 ADJ
-                                </button>
-
-                                {/* Botão de acesso à lista */}
-                                <Link
-                                    href="/adj/lista"
-                                    className="p-2 rounded hover:bg-gray-100 text-[#264D73]"
-                                    title="Ver Inscritos"
-                                >
-                                    📋
-                                </Link>
-                            </div>
+                        <div className="flex items-center gap-2">
+                            <button
+                                className={`${navLinkClass("/adj")} px-2 py-1 text-[#264D73] hover:bg-gray-100 rounded flex items-center gap-1 cursor-pointer`}
+                                onClick={() => router.push("/adj")}
+                                title="Área ADJ"
+                            >
+                                🙋
+                            </button>
+                            <Link
+                                href="/adj/lista"
+                                className="p-2 rounded hover:bg-gray-100 text-[#264D73]"
+                                title="Ver Inscritos"
+                            >
+                                📋
+                            </Link>
                         </div>
-                        <Link href="/perfil" className={navLinkClass("/perfil")}>Perfil</Link>
+                        <Link href="/perfil" className={navLinkClass("/perfil")} title="Perfil">👤</Link>
                         {(isAdmin || isModerator) && (
-                            <Link href="/admin" className={navLinkClass("/admin")}>Admin</Link>
+                            <Link href="/admin" className={navLinkClass("/admin")} title="Adicionar Encontro">
+                                ➕
+                            </Link>
                         )}
                         {isAdmin && (
-                            <Link href="/painelAdmin" className={navLinkClass("/painelAdmin")}>
-                                Painel Admin
+                            <Link href="/painelAdmin" className={navLinkClass("/painelAdmin")} title="Painel Admin">
+                                🛠️
                             </Link>
                         )}
                         <button
                             onClick={handleLogout}
                             className="text-red-600 hover:underline cursor-pointer"
+                            title="Sair"
                         >
-                            Sair
+                            🚪
                         </button>
                     </>
                 )}
