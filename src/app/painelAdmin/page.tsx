@@ -18,6 +18,7 @@ export default function PainelAdmin() {
     const [usuarios, setUsuarios] = useState<Usuario[]>([]);
     const [loading, setLoading] = useState(true);
     const [isAdmin, setIsAdmin] = useState(false);
+    const [userRole, setUserRole] = useState("");
     const router = useRouter();
 
     useEffect(() => {
@@ -28,16 +29,17 @@ export default function PainelAdmin() {
             }
 
             const roleRef = ref(database, `usuarios_web/${user.uid}/role`);
-            const nameRef = ref(database, `usuarios_web/${user.uid}/name`);
+            const roleSnap = await get(roleRef);
 
-            const [roleSnap] = await Promise.all([
-                get(roleRef),
-                get(nameRef),
-            ]);
-
-            if (roleSnap.exists() && roleSnap.val() === "admin") {
-                setIsAdmin(true);
-                fetchUsuarios();
+            if (roleSnap.exists()) {
+                const role = roleSnap.val();
+                setUserRole(role);
+                if (role === "admin") {
+                    setIsAdmin(true);
+                    fetchUsuarios();
+                } else {
+                    router.push("/");
+                }
             } else {
                 router.push("/");
             }
@@ -104,7 +106,7 @@ export default function PainelAdmin() {
                                     <td className="p-3">{user.email}</td>
                                     <td className="p-3 capitalize">{user.role}</td>
                                     <td className="p-3 flex space-x-2">
-                                        {user.role === "usuario" && (
+                                        {userRole === "admin" && user.role === "usuario" && (
                                             <button
                                                 onClick={() => mudarRole(user.uid, "moderador")}
                                                 title="Tornar Moderador"
@@ -113,7 +115,7 @@ export default function PainelAdmin() {
                                                 <FaUserShield size={20} />
                                             </button>
                                         )}
-                                        {user.role === "moderador" && (
+                                        {userRole === "admin" && user.role === "moderador" && (
                                             <button
                                                 onClick={() => mudarRole(user.uid, "usuario")}
                                                 title="Rebaixar para Usuário"

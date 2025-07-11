@@ -27,7 +27,7 @@ export default function CadastroPage() {
             await set(ref(database, `usuarios_web/${user.uid}`), {
                 name,
                 email,
-                role: "user",
+                role: "usuario",
             });
 
             router.push("/");
